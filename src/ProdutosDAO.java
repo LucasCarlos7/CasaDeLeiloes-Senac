@@ -21,8 +21,8 @@ public class ProdutosDAO {
     ResultSet resultset;
     ArrayList<ProdutosDTO> listagem = new ArrayList<>();
 
-    public void cadastrarProduto(ProdutosDTO produto) {
-        
+    public int cadastrarProduto(ProdutosDTO produto) {
+        int status;
         conn = new conectaDAO().connectDB();
 
         try {
@@ -30,9 +30,11 @@ public class ProdutosDAO {
             prep.setString(1, produto.getNome());
             prep.setInt(2, produto.getValor());
             prep.setString(3, produto.getStatus());
-            prep.executeUpdate();
+            status = prep.executeUpdate();
+            return status;
         } catch (SQLException e) {
             System.out.println("Erro ao conectar: " + e.getMessage());
+            return e.getErrorCode();
         }
 
     }
